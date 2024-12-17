@@ -1,0 +1,1 @@
+# hitpay-popup-handler
