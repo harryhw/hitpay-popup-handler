@@ -50,6 +50,12 @@ function MyComponent() {
     );
   };
 
+  useEffect(() => {
+      return () => {
+          hitpay.destroy();
+        };
+  }, [])
+
   return <button onClick={pay}>Pay with HitPay</button>;
 }
 ```
@@ -59,6 +65,13 @@ To manually close the popup, call the `close()` method:
 
 ```ts
 hitpay.close();
+```
+
+### Destroy when the component `MyComponent` unmounted
+To remove iframe, call the `destroy()` method:
+
+```ts
+hitpay.destroy();
 ```
 
 ## API Reference
@@ -117,7 +130,8 @@ hitpay.close();
 The HitPay module listens for events via the `window.postMessage` API. The following event types are handled internally:
 - **loaded**: Marks the iframe as ready.
 - **toggle**: Toggles the popup visibility.
-- **close**: Triggers the `onClose` callback.
+- **close**: Close the popup.
+- **destroy**: Remove the iframe.
 - **success**: Triggers the `onSuccess` callback.
 - **error**: Triggers the `onError` callback.
 
@@ -170,6 +184,12 @@ function MyComponent() {
       }
     );
   };
+
+  useEffect(() => {
+      return () => {
+          hitpay.destroy();
+        };
+  }, [])
 
   return <button onClick={pay}>Pay Now</button>;
 }
