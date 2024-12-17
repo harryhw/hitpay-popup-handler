@@ -154,7 +154,7 @@ function MyComponent() {
   const [hitpay] = useState(() => HitPay());
 
   const pay = () => {
-    hitpay.init("https://sandbox.hit-pay.com/payment", {
+    hitpay.init("https://sandbox.hit-pay.com/payment/@123" /*Your payment link*/, {
       domain: "sandbox.hit-pay.com"
     });
 
