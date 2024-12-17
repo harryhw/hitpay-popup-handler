@@ -43,10 +43,16 @@ function HitPay() {
                 const scheme = initOptions.scheme || "https";
                 const domain = initOptions.domain || "hit-pay.com";
                 const path = initOptions.path || "";
+                
+                if (document.getElementById("hitpay-overlay")) {
+                    const currentIframe = document.getElementById("hitpay-overlay") as HTMLIFrameElement;
+                    currentIframe.parentNode?.removeChild(currentIframe);
+                }
 
                 iframe = document.createElement("iframe");
                 iframe.setAttribute("src", `${scheme}://${domain}${path}/hitpay-iframe.html`);
                 iframe.setAttribute("allow", "payment");
+                iframe.setAttribute("id", "hitpay-overlay");
                 iframe.style.position = "fixed";
                 iframe.style.border = "0";
                 iframe.style.width = "100vw";
@@ -59,6 +65,8 @@ function HitPay() {
                 iframe.style.display = "none";
 
                 document.body.appendChild(iframe);
+            
+                
 
                 readyPromise = new Promise<void>((resolve) => {
                     readyResolve = resolve;
@@ -109,6 +117,12 @@ function HitPay() {
             if (config.callbacks.onClose) {
                 config.callbacks.onClose();
             }
+        },
+        destroy() {
+            if (document.getElementById("hitpay-overlay")) {
+                const currentIframe = document.getElementById("hitpay-overlay") as HTMLIFrameElement;
+                currentIframe.parentNode?.removeChild(currentIframe);
+            }
         }
     };
 
@@ -126,6 +140,9 @@ function HitPay() {
                     HitPay.toggle({});
                     break;
                 case "close":
+                    HitPay.destroy();
+                    break;
+                case "destroy":
                     HitPay.close();
                     break;
                 case "success":
